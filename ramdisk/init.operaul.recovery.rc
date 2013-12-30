@@ -1,0 +1,88 @@
+# TODO: Remove un-necessary partition in "on emmc" section after mfgkernel
+#       is ready, it should be independent to system & data partition
+on emmc-fs
+    mkdir /system
+    mkdir /data 0771 system system
+    mkdir /persist 0771 system system
+
+    mkdir /vendor               0771 system system
+    mkdir /vendor/firmware      0771 system system
+
+#    devwait /dev/block/mmcblk0p22
+#    mount ext3 /dev/block/mmcblk0p22 /system ro
+#    devwait /dev/block/mmcblk0p30
+#    exec /sbin/e2fsck -p /dev/block/mmcblk0p30
+#    mount ext3 /dev/block/mmcblk0p30 /data nosuid nodev
+
+    mkdir /devlog 0700 root root
+    devwait emmc@devlog
+    exec /sbin/e2fsck_recvy -p emmc@devlog
+    mount ext4 emmc@devlog /devlog noatime nosuid nodev data=ordered
+
+    mkdir /tombstones 0771 system system
+#   mount ext4 /dev/block/mmcblk0p16 /tombstones nosuid nodev barrier=1
+    mkdir /tombstones/mdm 0771 system system
+    mkdir /tombstones/modem 0771 system system
+    mkdir /tombstones/lpass 0771 system system
+    mkdir /tombstones/dsps 0771 system system
+    mkdir /firmware_radio 0771 system system
+    mkdir /firmware_q6 0771 system system
+    devwait emmc@radio
+    mount vfat emmc@radio /firmware_radio ro shortname=lower
+    devwait emmc@adsp
+    mount vfat emmc@adsp /firmware_q6 ro shortname=lower
+    exec /system/bin/sh2 /etc/init.qcom.radio_links.sh
+    exec /system/bin/sh2 /etc/init.qcom.q6_links.sh
+
+
+# HTC SSD Camera
+    chown media system /sys/camera_htccallback/htccallback
+    chown media system /sys/camera_attrs/videochat
+
+#
+#  Create a remote storage service in recovery mode if eMMC booting
+#
+service rmt_storage /sbin/rmt_storage modem_st1 modem_st2 recovery radio_config
+    user root
+    disabled
+
+service port-bridge /system/bin/port-bridge /dev/smd0 /dev/ttyHSUSB0
+
+on property:ro.bootmode=power_test
+    devwait emmc@system
+    mount ext4 emmc@system /system ro
+
+on property:ro.bootmode=recovery
+    devwait emmc@system
+#    mount ext4 emmc@system /system ro
+#    umount /system
+
+on property:ro.mfgkernel=1
+    write /sys/power/wake_lock mfgkernel
+
+service mfgsrv /sbin/mfgsrv -i -t /dev/ttyHSL0 -t /dev/ttyHSUSB1
+    disabled
+
+service htc_ebdlogd /sbin/htc_ebdlogd_recvy -s -k -F /sbin -p V
+    user root
+    disabled
+    oneshot
+    ioprio idle 0
+
+on property:ro.build.tags=test-keys
+    start htc_ebdlogd
+
+on property:ro.build.tags=release-keys
+    start htc_ebdlogd
+
+service mfg_htcqxdm2sd /sbin/mfg_htcqxdm2sd -d 1
+     oneshot
+
+service thermald /system/bin/thermald
+   class main
+   user root
+   group root
+
+service mpdecision /system/bin/mpdecision
+    user root
+    group root
