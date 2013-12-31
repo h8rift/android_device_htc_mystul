@@ -25,8 +25,8 @@
 USE_CAMERA_STUB := true
 
 # Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := MSM8960
-TARGET_NO_BOOTLOADER := true
+TARGET_BOOTLOADER_BOARD_NAME := mystul
+TARGET_BOARD_PLATFORM := msm8960
 
 # Include Path
 TARGET_SPECIFIC_HEADER_PATH := device/htc/mystul/include
@@ -53,7 +53,7 @@ BOARD_HAVE_HTC_CSDCLIENT := true
 # Kernel
 BOARD_KERNEL_BASE := 0x80400000
 BOARD_KERNEL_PAGESIZE := 2048
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=qcom androidboot.selinux=permissive
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=m4 androidboot.selinux=permissive user_debug=31
 BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01400000
 TARGET_KERNEL_SOURCE := kernel/htc/msm8960
 TARGET_KERNEL_CONFIG := operaul_defconfig
@@ -124,3 +124,6 @@ BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 TARGET_PREBUILT_KERNEL := device/htc/mystul/kernel
 BOARD_RECOVERY_SWIPE := true
 TARGET_USERIMAGES_USE_EXT4 := true
+RECOVERY_GRAPHICS_USE_LINELENGTH := true
+TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+
