@@ -26,10 +26,11 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/ramdisk/init.qcom.rc:/root/init.qcom.rc \
     $(LOCAL_PATH)/ramdisk/fstab.operaul:/root/fstab.operaul \
     $(LOCAL_PATH)/ramdisk/init.qcom.sh:/root/init.qcom.sh \
-    $(LOCAL_PATH)/ramdisk/init.target.rc:/root/init.target.rc \
-    $(LOCAL_PATH)/ramdisk/init.usb.rc:/root/init.usb.rc \
-    $(LOCAL_PATH)/ramdisk/ueventd.target.rc:/root/ueventd.target.rc \
-    $(LOCAL_PATH)/ramdisk/init.target.recovery.rc:/root/init.target.recovery.rc
+    $(LOCAL_PATH)/ramdisk/init.operaul.rc:/root/init.operaul.rc \
+    $(LOCAL_PATH)/ramdisk/init.operaul.usb.rc:/root/init.operaul.usb.rc \
+    $(LOCAL_PATH)/ramdisk/ueventd.operaul.rc:/root/ueventd.operaul.rc \
+    $(LOCAL_PATH)/ramdisk/init.operaul.recovery.rc:/root/init.operaul.recovery.rc \
+    $(LOCAL_PATH)/ramdisk/remount.operaul:/root/remount.operaul
 
 # Qualcomm scripts
 PRODUCT_COPY_FILES += \

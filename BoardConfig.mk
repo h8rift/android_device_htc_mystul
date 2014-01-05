@@ -28,20 +28,19 @@ USE_CAMERA_STUB := true
 TARGET_BOOTLOADER_BOARD_NAME := mystul
 TARGET_BOARD_PLATFORM := msm8960
 
-# Include Path
-TARGET_SPECIFIC_HEADER_PATH := device/htc/mystul/include
+# Architecture
+TARGET_CPU_VARIANT := krait
 
 # inherit from common msm8960
 -include device/htc/msm8960-common/BoardConfigCommon.mk
 
-# Release Tools (commented out for now)
-# TARGET_RELEASETOOLS_EXTENSIONS := device/htc/mystul
-
-# Require bootloader version (commented out for now)
-# TARGET_BOARD_INFO_FILE ?= device/htc/mystul/board-info.txt
-
-# Architecture
-TARGET_CPU_VARIANT := krait
+# Kernel
+BOARD_KERNEL_BASE := 0x80400000
+BOARD_KERNEL_PAGESIZE := 2048
+BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=operaul androidboot.selinux=permissive user_debug=31
+BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01400000
+TARGET_KERNEL_SOURCE := kernel/htc/msm8960
+TARGET_KERNEL_CONFIG := operaul_defconfig
 
 # Audio
 BOARD_USES_FLUENCE_INCALL := true # use DMIC in call only
@@ -50,39 +49,28 @@ BOARD_USES_SEPERATED_VOICE_SPEAKER := true # use distinct voice speaker user cas
 BOARD_USES_SEPERATED_VOIP := true # use distinct VOIP use cases
 BOARD_HAVE_HTC_CSDCLIENT := true
 
-# Kernel
-BOARD_KERNEL_BASE := 0x80400000
-BOARD_KERNEL_PAGESIZE := 2048
-BOARD_KERNEL_CMDLINE := console=ttyHSL0,115200,n8 androidboot.hardware=m4 androidboot.selinux=permissive user_debug=31
-BOARD_MKBOOTIMG_ARGS := --ramdisk_offset 0x01400000
-TARGET_KERNEL_SOURCE := kernel/htc/msm8960
-TARGET_KERNEL_CONFIG := operaul_defconfig
-
-# fix this up by examining /proc/mtd on a running device
-BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
-BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16776704
-BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1610611712
-BOARD_USERDATAIMAGE_PARTITION_SIZE := 13220446208
-BOARD_FLASH_BLOCK_SIZE := 131072
+# Bluetooth
+#BOARD_HAVE_BLUETOOTH_BCM := true
+#BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/htc/operaul/bluetooth
+#BOARD_BLUEDROID_VENDOR_CONF := device/htc/operaul/bluetooth/libbt_vndcfg.txt
+#BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
 
 # Camera
 BOARD_NEEDS_MEMORYHEAPPMEM := true
 COMMON_GLOBAL_CFLAGS += -DDISABLE_HW_ID_MATCH_CHECK
 COMMON_GLOBAL_CFLAGS += -DHTC_CAMERA_HARDWARE
+COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
+USE_DEVICE_SPECIFIC_CAMERA := true
 
 # Graphics
 TARGET_DISPLAY_INSECURE_MM_HEAP := true
 
-# Bluetooth
-BOARD_HAVE_BLUETOOTH_BCM := true
+# GPS
+#BOARD_HAVE_NEW_QC_GPS := true
 
 # RIL
 BOARD_PROVIDES_LIBRIL := true
 COMMON_GLOBAL_CFLAGS += -DNEW_LIBRIL_HTC
-
-# QCOM GPS
-#BOARD_VENDOR_QCOM_GPS_LOC_API_AMSS_VERSION := 50000
-#BOARD_VENDOR_QCOM_GPS_LOC_API_HARDWARE := mystul
 
 # Wifi related defines
 WIFI_BAND                        := 802_11_ABG
@@ -96,6 +84,13 @@ WIFI_DRIVER_FW_PATH_STA          := "/system/etc/firmware/fw_bcm4334.bin"
 WIFI_DRIVER_FW_PATH_AP           := "/system/etc/firmware/fw_bcm4334_apsta.bin"
 WIFI_DRIVER_FW_PATH_P2P          := "/system/etc/firmware/fw_bcm4334_p2p.bin"
 WIFI_DRIVER_FW_PATH_PARAM        := "/sys/module/bcmdhd/parameters/firmware_path"
+
+# fix this up by examining /proc/mtd on a running device
+BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
+BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16776704
+BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1610611712
+BOARD_USERDATAIMAGE_PARTITION_SIZE := 13220446208
+BOARD_FLASH_BLOCK_SIZE := 131072
 
 # cat /proc/emmc
 #dev:        size     erasesize name
@@ -118,10 +113,9 @@ mmcblk0p23: 00400000 00000200 "modem_st1"
 mmcblk0p24: 00400000 00000200 "modem_st2"
 mmcblk0p31: 0616a000 00000200 "reserve"
 
-# Custom Recovery
+# Recovery
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
-TARGET_PREBUILT_KERNEL := device/htc/mystul/kernel
 BOARD_RECOVERY_SWIPE := true
 TARGET_USERIMAGES_USE_EXT4 := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
