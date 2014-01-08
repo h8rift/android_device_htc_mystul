@@ -1,4 +1,4 @@
-# Master file for snd_soc_msm sound card proj=OPA DATE= 20130320_AMIC
+# Master file for snd_soc_msm sound card proj=OPA DATE= 20130320_DMIC
 # Lists all use case verbs
 SectionUseCase."HiFi" {
 SectionVerb
@@ -2166,19 +2166,17 @@ SectionDevice
 	EnableSequence
 		'SLIM_0_TX Channels':0:Two
 		'SLIM TX3 MUX':0:DEC3
-		'DEC3 MUX':0:ADC1
-		'ADC1 Volume':1:100
-		'DEC3 Volume':2:54
+		'DEC3 MUX':0:DMIC2
+		'DEC3 Volume':2:57
 		'SLIM TX4 MUX':0:DEC4
 		'DEC4 MUX':0:ADC3
 		'ADC3 Volume':1:100
-		'DEC4 Volume':2:54
+		'DEC4 Volume':2:57
 	EndSequence
 
 	DisableSequence
 		'SLIM TX3 MUX':0:ZERO
 		'DEC3 MUX':0:ZERO
-		'ADC1 Volume':1:0
 		'DEC3 Volume':2:0
 		'SLIM TX4 MUX':0:ZERO
 		'DEC4 MUX':0:ZERO
@@ -2186,7 +2184,7 @@ SectionDevice
 		'DEC4 Volume':2:0
 	EndSequence
 
-	ACDBID  41:2
+	ACDBID  6:2
 EndSection
 
 SectionDevice
@@ -2230,17 +2228,15 @@ SectionDevice
 	EnableSequence
 		'SLIM_0_TX Channels':0:One
 		'SLIM TX3 MUX':0:DEC3
-		'DEC3 MUX':0:ADC1
-		'ADC1 Volume':1:82
-		'DEC3 Volume':1:82
+		'DEC3 MUX':0:DMIC2
+		'DEC3 Volume':2:57
 	EndSequence
 
 	DisableSequence
 		'SLIM_0_TX Channels':0:ZERO
 		'SLIM TX3 MUX':0:ZERO
 		'DEC3 MUX':0:ZERO
-		'ADC1 Volume':1:0
-		'DEC3 Volume':1:0
+		'DEC3 Volume':2:0
 	EndSequence
 
 	ACDBID  4:2
@@ -2335,21 +2331,19 @@ SectionDevice
 EndSection
 
 SectionDevice
-	Name "Line"
+	Name "Line"	
 
 	EnableSequence
 		'SLIM_0_TX Channels':0:One
 		'SLIM TX3 MUX':0:DEC3
-		'DEC3 MUX':0:ADC1
-		'ADC1 Volume':1:82'
-		'DEC3 Volume':1:82
+		'DEC3 MUX':0:DMIC2
+		'DEC3 Volume':2:57
 	EndSequence
 
 	DisableSequence
 		'SLIM TX3 MUX':0:ZERO
 		'DEC3 MUX':0:ZERO
-		'ADC1 Volume':1:0
-		'DEC3 Volume':1:0
+		'DEC3 Volume':2:0
 	EndSequence
 
 	ACDBID  501:2
@@ -2682,16 +2676,14 @@ SectionDevice
 	EnableSequence
 		'SLIM_0_TX Channels':0:One
 		'SLIM TX3 MUX':0:DEC3
-		'DEC3 MUX':0:ADC1
-		'ADC1 Volume':1:100
-		'DEC3 Volume':1:82
+		'DEC3 MUX':0:DMIC2
+		'DEC3 Volume':2:57
 	EndSequence
 
 	DisableSequence
 		'SLIM TX3 MUX':0:ZERO
 		'DEC3 MUX':0:ZERO
-		'ADC1 Volume':1:0
-		'DEC3 Volume':1:0
+		'DEC3 Volume':2:0
 	EndSequence
 
 	ACDBID  36:2
@@ -2727,16 +2719,14 @@ SectionDevice
 	EnableSequence
 		'SLIM_0_TX Channels':0:One
 		'SLIM TX3 MUX':0:DEC3
-		'DEC3 MUX':0:ADC1
-		'ADC1 Volume':1:100
-		'DEC3 Volume':1:82
+		'DEC3 MUX':0:DMIC2
+		'DEC3 Volume':2:82
 	EndSequence
 
 	DisableSequence
 		'SLIM TX3 MUX':0:ZERO
 		'DEC3 MUX':0:ZERO
-		'ADC1 Volume':1:0
-		'DEC3 Volume':1:0
+		'DEC3 Volume':2:0
 	EndSequence
 
 	ACDBID  36:2
@@ -2900,16 +2890,14 @@ SectionDevice
 	EnableSequence
 		'SLIM_0_TX Channels':0:One
 		'SLIM TX3 MUX':0:DEC3
-		'DEC3 MUX':0:ADC1
-		'ADC1 Volume':1:82'
-		'DEC3 Volume':1:82
+		'DEC3 MUX':0:DMIC2		
+		'DEC3 Volume':2:57
 	EndSequence
 
 	DisableSequence
 		'SLIM TX3 MUX':0:ZERO
-		'DEC3 MUX':0:ZERO
-		'ADC1 Volume':1:0
-		'DEC3 Volume':1:0
+		'DEC3 MUX':0:ZERO		
+		'DEC3 Volume':2:0
 	EndSequence
 
 	ACDBID  502:2
@@ -2921,16 +2909,14 @@ SectionDevice
 	EnableSequence
 		'SLIM_0_TX Channels':0:One
 		'SLIM TX3 MUX':0:DEC3
-		'DEC3 MUX':0:ADC1
-		'ADC1 Volume':1:82'
-		'DEC3 Volume':1:82
+		'DEC3 MUX':0:DMIC2		
+		'DEC3 Volume':2:57
 	EndSequence
 
 	DisableSequence
 		'SLIM TX3 MUX':0:ZERO
-		'DEC3 MUX':0:ZERO
-		'ADC1 Volume':1:0
-		'DEC3 Volume':1:0
+		'DEC3 MUX':0:ZERO		
+		'DEC3 Volume':2:0
 	EndSequence
 
 	ACDBID  560:2
@@ -3074,9 +3060,8 @@ SectionDevice
 		EnableSequence
 		'SLIM_0_TX Channels':0:Two
 		'SLIM TX4 MUX':0:DEC4
-		'DEC4 MUX':0:ADC1
-		'ADC1 Volume':1:100
-		'DEC4 Volume':2:4e
+		'DEC4 MUX':0:DMIC2	
+		'DEC4 Volume':2:57
 		'SLIM TX3 MUX':0:DEC3
 		'DEC3 MUX':0:ADC3
 		'ADC3 Volume':1:100
@@ -3085,8 +3070,7 @@ SectionDevice
 
 	DisableSequence
 		'SLIM TX3 MUX':0:ZERO
-		'DEC3 MUX':0:ZERO
-		'ADC1 Volume':1:0
+		'DEC3 MUX':0:ZERO		
 		'DEC3 Volume':2:0
 		'SLIM TX4 MUX':0:ZERO
 		'DEC4 MUX':0:ZERO
@@ -3100,8 +3084,7 @@ SectionDevice
 EnableSequence
 		'SLIM_0_TX Channels':0:Two
 		'SLIM TX3 MUX':0:DEC3
-		'DEC3 MUX':0:ADC1
-		'ADC1 Volume':1:100
+		'DEC3 MUX':0:DMIC2		
 		'DEC3 Volume':2:4e
 		'SLIM TX4 MUX':0:DEC4
 		'DEC4 MUX':0:ADC3
@@ -3111,8 +3094,7 @@ EnableSequence
 
 	DisableSequence
 		'SLIM TX3 MUX':0:ZERO
-		'DEC3 MUX':0:ZERO
-		'ADC1 Volume':1:0
+		'DEC3 MUX':0:ZERO		
 		'DEC3 Volume':2:0
 		'SLIM TX4 MUX':0:ZERO
 		'DEC4 MUX':0:ZERO
@@ -3193,15 +3175,13 @@ SectionDevice
 	EnableSequence
 		'SLIM_0_TX Channels':0:One
 		'SLIM TX3 MUX':0:DEC3
-		'DEC3 MUX':0:ADC1
-		'ADC1 Volume':1:100
-		'DEC3 Volume':2:54
+		'DEC3 MUX':0:DMIC2		
+		'DEC3 Volume':2:57
 	EndSequence
 
 	DisableSequence
 		'SLIM TX3 MUX':0:ZERO
-		'DEC3 MUX':0:ZERO
-		'ADC1 Volume':1:0
+		'DEC3 MUX':0:ZERO		
 		'DEC3 Volume':2:0
 	EndSequence
 
@@ -3499,28 +3479,22 @@ SectionDevice
 	EnableSequence
 		'SLIM_0_TX Channels':0:Two
 		'SLIM TX3 MUX':0:DEC3
-		'DEC3 MUX':0:ADC1
-		'ADC1 Volume':1:100
-		'DEC3 Volume':1:57
-		'MICBIAS1 CAPLESS Switch':1:1
+		'DEC3 MUX':0:DMIC2
+		'DEC3 Volume':2:57
 		'SLIM TX4 MUX':0:DEC4
 		'DEC4 MUX':0:ADC3
 		'ADC3 Volume':1:100
 		'DEC4 Volume':1:57
-		'MICBIAS2 CAPLESS Switch':1:1
 	EndSequence
 
 	DisableSequence
 		'SLIM TX3 MUX':0:ZERO
-		'DEC3 MUX':0:ZERO
-		'ADC1 Volume':1:0
-		'DEC3 Volume':1:0
-		'MICBIAS1 CAPLESS Switch':1:0
+		'DEC3 MUX':0:ZERO		
+		'DEC3 Volume':2:0
 		'SLIM TX4 MUX':0:ZERO
 		'DEC4 MUX':0:ZERO
 		'ADC3 Volume':1:0
 		'DEC4 Volume':1:0
-		'MICBIAS2 CAPLESS Switch':1:0
 	EndSequence
 
 	ACDBID  103:2
@@ -4867,7 +4841,7 @@ SectionModifier
 	Name "Play VoiceLine"
 
 	EnableSequence
-		'Voice_Tx Mixer SLIM_0_TX_Voice':1:1
+	         'Voice_Tx Mixer SLIM_0_TX_Voice':1:1
 	EndSequence
 
 	DisableSequence
