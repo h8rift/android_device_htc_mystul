@@ -44,7 +44,9 @@ PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/init.qcom.radio_links.sh:/system/etc/init.qcom.radio_links.sh
 
 # HTC BT audio config
-PRODUCT_COPY_FILES += device/htc/mystul/configs/AudioBTID.csv:system/etc/AudioBTID.csv
+PRODUCT_COPY_FILES += \
+ device/htc/mystul/configs/AudioBTID.csv:system/etc/AudioBTID.csv \
+ device/htc/mystul/configs/AudioBTIDnew.csv:system/etc/AudioBTIDnew.csv
 
 # Camera
 PRODUCT_PACKAGES += \
@@ -56,16 +58,35 @@ PRODUCT_PACKAGES += \
 
 # Sound configs
 PRODUCT_COPY_FILES += \
-    device/htc/mystul/dsp/soundimage/srs_bypass.cfg:system/etc/soundimage/srs_bypass.cfg \
-    device/htc/mystul/dsp/soundimage/srsfx_trumedia_51.cfg:system/etc/soundimage/srsfx_trumedia_51.cfg \
-    device/htc/mystul/dsp/soundimage/srsfx_trumedia_movie.cfg:system/etc/soundimage/srsfx_trumedia_movie.cfg \
-    device/htc/mystul/dsp/soundimage/srsfx_trumedia_music.cfg:system/etc/soundimage/srsfx_trumedia_music.cfg \
-    device/htc/mystul/dsp/soundimage/srsfx_trumedia_voice.cfg:system/etc/soundimage/srsfx_trumedia_voice.cfg \
-    device/htc/mystul/dsp/soundimage/srs_geq10.cfg:system/etc/soundimage/srs_geq10.cfg \
-    device/htc/mystul/dsp/soundimage/srs_global.cfg:system/etc/soundimage/srs_global.cfg
+    device/htc/mystul/dsp/tfa/tfa9887.config:system/etc/tfa/tfa9887.config \
+    device/htc/mystul/dsp/tfa/tfa9887.patch:system/etc/tfa/tfa9887.patch \
+    device/htc/mystul/dsp/tfa/tfa9887.speaker:system/etc/tfa/tfa9887.speaker \
+    device/htc/mystul/dsp/tfa/playback.config:system/etc/tfa/playback.config \
+    device/htc/mystul/dsp/tfa/playback.eq:system/etc/tfa/playback.eq \
+    device/htc/mystul/dsp/tfa/playback.preset:system/etc/tfa/playback.preset \
+    device/htc/mystul/dsp/tfa/recorder.config:system/etc/tfa/recorder.config \
+    device/htc/mystul/dsp/tfa/recorder.eq:system/etc/tfa/recorder.eq \
+    device/htc/mystul/dsp/tfa/recorder.preset:system/etc/tfa/recorder.preset \
+    device/htc/mystul/dsp/tfa/ring.config:system/etc/tfa/ring.config \
+    device/htc/mystul/dsp/tfa/ring.eq:system/etc/tfa/ring.eq \
+    device/htc/mystul/dsp/tfa/ring.preset:system/etc/tfa/ring.preset \
+    device/htc/mystul/dsp/tfa/video.config:system/etc/tfa/video.config \
+    device/htc/mystul/dsp/tfa/video.eq:system/etc/tfa/video.eq \
+    device/htc/mystul/dsp/tfa/video.preset:system/etc/tfa/video.preset \
+    device/htc/mystul/dsp/tfa/voice.config:system/etc/tfa/voice.config \
+    device/htc/mystul/dsp/tfa/voice.eq:system/etc/tfa/voice.eq \
+    device/htc/mystul/dsp/tfa/voice.preset:system/etc/tfa/voice.preset
 
 PRODUCT_COPY_FILES += \
-    device/htc/mystul/dsp/snd_soc_msm/snd_soc_msm_2x:/system/etc/snd_soc_msm/snd_soc_msm_2x \
+    device/htc/mystul/dsp/sound_mfg.txt:system/etc/sound_mfg.txt \
+    device/htc/mystul/dsp/sound_mfg_DMIC.txt:system/etc/sound_mfg_DMIC.txt
+
+# Wifi configs
+PRODUCT_PACKAGES += \
+    device/htc/mystul/configs/wpa_supplicant.conf:system/etc/wpa_supplicant.conf \
+    device/htc/mystul/configs/p2p_supplicant.conf:system/etc/p2p_supplicant.conf
+
+PRODUCT_COPY_FILES += \
     device/htc/mystul/dsp/snd_soc_msm/snd_soc_msm_Sitar:/system/etc/snd_soc_msm/snd_soc_msm_Sitar
 
 # Keylayouts and Keychars

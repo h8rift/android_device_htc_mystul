@@ -24,10 +24,6 @@
 # against the traditional rules of inheritance).
 USE_CAMERA_STUB := true
 
-# Bootloader
-TARGET_BOOTLOADER_BOARD_NAME := mystul
-TARGET_BOARD_PLATFORM := msm8960
-
 # Architecture
 TARGET_CPU_VARIANT := krait
 
@@ -43,11 +39,11 @@ TARGET_KERNEL_SOURCE := kernel/htc/msm8960
 TARGET_KERNEL_CONFIG := operaul_defconfig
 
 # Audio
-BOARD_USES_FLUENCE_INCALL := true # use DMIC in call only
-BOARD_USES_SEPERATED_AUDIO_INPUT := true # use distinct voice recog/camcorder use cases
-BOARD_USES_SEPERATED_VOICE_SPEAKER := true # use distinct voice speaker user case
-BOARD_USES_SEPERATED_VOIP := true # use distinct VOIP use cases
-BOARD_HAVE_HTC_CSDCLIENT := true
+#BOARD_USES_FLUENCE_INCALL := true # use DMIC in call only
+#BOARD_USES_SEPERATED_AUDIO_INPUT := true # use distinct voice recog/camcorder use cases
+#BOARD_USES_SEPERATED_VOICE_SPEAKER := true # use distinct voice speaker user case
+#BOARD_USES_SEPERATED_VOIP := true # use distinct VOIP use cases
+#BOARD_HAVE_HTC_CSDCLIENT := true
 
 # Bluetooth
 #BOARD_HAVE_BLUETOOTH_BCM := true
