@@ -48,13 +48,23 @@ PRODUCT_COPY_FILES += \
  device/htc/mystul/configs/AudioBTID.csv:system/etc/AudioBTID.csv \
  device/htc/mystul/configs/AudioBTIDnew.csv:system/etc/AudioBTIDnew.csv
 
+PRODUCT_PACKAGES += \
+    libnetcmdiface
+
 # Camera
 PRODUCT_PACKAGES += \
-    camera.msm8930
+    camera.msm8960
 
 # GPS
 PRODUCT_PACKAGES += \
-    gps.msm8930
+    libloc_adapter \
+    libloc_eng \
+    libloc_api_v02 \
+    libgps.utils \
+    gps.msm8960
+
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf
 
 # Sound configs
 PRODUCT_COPY_FILES += \
@@ -109,20 +119,18 @@ PRODUCT_COPY_FILES += \
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/thermald.conf:system/etc/thermald.conf
 
-# GPS config
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf
-
 # Torch
 PRODUCT_PACKAGES += \
     Torch
 
-# Extra properties
+PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
+    persist.sys.usb.config=mtp,adb
+
 PRODUCT_PROPERTY_OVERRIDES += \
-    ro.setupwizard.enable_bypass=1 \
-    dalvik.vm.lockprof.threshold=500 \
-    ro.com.google.locationfeatures=1 \
-    dalvik.vm.dexopt-flags=m=y
+    persist.timed.enable=true \
+    persist.gps.qmienabled=true \
+    ro.opengles.version=196608
+
 
 # We have enough space to hold precise GC data
 PRODUCT_TAGS += dalvik.gc.type-precise
@@ -130,20 +138,14 @@ PRODUCT_TAGS += dalvik.gc.type-precise
 # Set build date
 PRODUCT_BUILD_PROP_OVERRIDES += BUILD_UTC_DATE=0
 
+PRODUCT_CHARACTERISTICS := nosdcard
+
 # Device uses high-density artwork where available
-PRODUCT_AAPT_CONFIG := normal hdpi
-PRODUCT_AAPT_PREF_CONFIG := hdpi
-PRODUCT_LOCALES += en_US hdpi
+PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
+PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
 # call the proprietary setup
 $(call inherit-product-if-exists, vendor/htc/mystul/mystul-vendor.mk)
 
 # call dalvik heap config
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
-
-# Discard inherited values and use our own instead.
-PRODUCT_DEVICE := mystul
-PRODUCT_NAME := mystul
-PRODUCT_BRAND := htc
-PRODUCT_MODEL := First 
-PRODUCT_MANUFACTURER := HTC

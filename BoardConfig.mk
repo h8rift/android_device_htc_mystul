@@ -22,13 +22,15 @@
 # WARNING: This line must come *before* including the proprietary
 # variant, so that it gets overwritten by the parent (which goes
 # against the traditional rules of inheritance).
-USE_CAMERA_STUB := true
 
-# Architecture
-TARGET_CPU_VARIANT := krait
+# Include Path
+TARGET_SPECIFIC_HEADER_PATH := device/htc/mystul/include
 
 # inherit from common msm8960
 -include device/htc/msm8960-common/BoardConfigCommon.mk
+
+# Architecture
+TARGET_CPU_VARIANT := krait
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80400000
@@ -39,21 +41,21 @@ TARGET_KERNEL_SOURCE := kernel/htc/msm8960
 TARGET_KERNEL_CONFIG := operaul_defconfig
 
 # Audio
-#BOARD_USES_FLUENCE_INCALL := true # use DMIC in call only
-#BOARD_USES_SEPERATED_AUDIO_INPUT := true # use distinct voice recog/camcorder use cases
-#BOARD_USES_SEPERATED_VOICE_SPEAKER := true # use distinct voice speaker user case
-#BOARD_USES_SEPERATED_VOIP := true # use distinct VOIP use cases
-#BOARD_HAVE_HTC_CSDCLIENT := true
+BOARD_USES_FLUENCE_INCALL := true
+BOARD_USES_SEPERATED_AUDIO_INPUT := true
+BOARD_USES_SEPERATED_VOICE_SPEAKER := true
+BOARD_USES_SEPERATED_VOIP := true
+BOARD_AUDIO_AMPLIFIER := device/htc/mystul/libaudioamp
+BOARD_HAVE_HTC_CSDCLIENT := true
 
 # Bluetooth
 #BOARD_HAVE_BLUETOOTH_BCM := true
-#BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/htc/operaul/bluetooth
-#BOARD_BLUEDROID_VENDOR_CONF := device/htc/operaul/bluetooth/libbt_vndcfg.txt
+#BOARD_BLUETOOTH_BDROID_BUILDCFG_INCLUDE_DIR := device/htc/mystul/bluetooth
+#BOARD_BLUEDROID_VENDOR_CONF := device/htc/mystul/bluetooth/libbt_vndcfg.txt
 #BOARD_BLUETOOTH_USES_HCIATTACH_PROPERTY := false
 
 # Camera
 BOARD_NEEDS_MEMORYHEAPPMEM := true
-COMMON_GLOBAL_CFLAGS += -DDISABLE_HW_ID_MATCH_CHECK
 COMMON_GLOBAL_CFLAGS += -DHTC_CAMERA_HARDWARE
 COMMON_GLOBAL_CFLAGS += -DNEEDS_VECTORIMPL_SYMBOLS
 USE_DEVICE_SPECIFIC_CAMERA := true
@@ -62,7 +64,7 @@ USE_DEVICE_SPECIFIC_CAMERA := true
 TARGET_DISPLAY_INSECURE_MM_HEAP := true
 
 # GPS
-#BOARD_HAVE_NEW_QC_GPS := true
+BOARD_HAVE_NEW_QC_GPS := true
 
 # RIL
 BOARD_PROVIDES_LIBRIL := true
@@ -116,4 +118,3 @@ BOARD_RECOVERY_SWIPE := true
 TARGET_USERIMAGES_USE_EXT4 := true
 RECOVERY_GRAPHICS_USE_LINELENGTH := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
-
