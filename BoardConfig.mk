@@ -23,14 +23,15 @@
 # variant, so that it gets overwritten by the parent (which goes
 # against the traditional rules of inheritance).
 
-# Include Path
-TARGET_SPECIFIC_HEADER_PATH := device/htc/mystul/include
-
 # inherit from common msm8960
 -include device/htc/msm8960-common/BoardConfigCommon.mk
 
-# Architecture
-TARGET_CPU_VARIANT := krait
+# Include Path
+TARGET_SPECIFIC_HEADER_PATH := device/htc/mystul/include
+
+# Bootloader
+TARGET_BOOTLOADER_BOARD_NAME := mystul
+TARGET_BOARD_PLATFORM := msm8960
 
 # Kernel
 BOARD_KERNEL_BASE := 0x80400000
@@ -45,7 +46,6 @@ BOARD_USES_FLUENCE_INCALL := true
 BOARD_USES_SEPERATED_AUDIO_INPUT := true
 BOARD_USES_SEPERATED_VOICE_SPEAKER := true
 BOARD_USES_SEPERATED_VOIP := true
-BOARD_AUDIO_AMPLIFIER := device/htc/mystul/libaudioamp
 BOARD_HAVE_HTC_CSDCLIENT := true
 
 # Bluetooth
@@ -66,55 +66,67 @@ TARGET_DISPLAY_INSECURE_MM_HEAP := true
 # GPS
 BOARD_HAVE_NEW_QC_GPS := true
 
+# Power
+TARGET_POWERHAL_VARIANT := cm
+
 # RIL
 BOARD_PROVIDES_LIBRIL := true
-COMMON_GLOBAL_CFLAGS += -DNEW_LIBRIL_HTC
 
 # Wifi related defines
-WIFI_BAND                        := 802_11_ABG
 WPA_SUPPLICANT_VERSION           := VER_0_8_X
-BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
-BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_bcmdhd
-BOARD_HOSTAPD_DRIVER             := NL80211
-BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_bcmdhd
 BOARD_WLAN_DEVICE                := bcmdhd
+BOARD_WPA_SUPPLICANT_DRIVER      := NL80211
+BOARD_WPA_SUPPLICANT_PRIVATE_LIB := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
+BOARD_HOSTAPD_DRIVER             := NL80211
+BOARD_HOSTAPD_PRIVATE_LIB        := lib_driver_cmd_$(BOARD_WLAN_DEVICE)
+WIFI_DRIVER_FW_PATH_PARAM        := "/sys/module/bcmdhd/parameters/firmware_path"
 WIFI_DRIVER_FW_PATH_STA          := "/system/etc/firmware/fw_bcm4334.bin"
 WIFI_DRIVER_FW_PATH_AP           := "/system/etc/firmware/fw_bcm4334_apsta.bin"
 WIFI_DRIVER_FW_PATH_P2P          := "/system/etc/firmware/fw_bcm4334_p2p.bin"
-WIFI_DRIVER_FW_PATH_PARAM        := "/sys/module/bcmdhd/parameters/firmware_path"
 
-# fix this up by examining /proc/mtd on a running device
+# cat /proc/emmc
+# dev:        size     erasesize name
+# mmcblk0p22: 000ffa00 00000200 "misc"
+# mmcblk0p21: 00fffe00 00000200 "recovery"
+# mmcblk0p20: 01000000 00000200 "boot"
+# mmcblk0p32: 5ffffc00 00000200 "system"
+# mmcblk0p29: 00140200 00000200 "local"
+# mmcblk0p33: 13fffe00 00000200 "cache"
+# mmcblk0p34: 314000000 00000200 "userdata"
+# mmcblk0p25: 01400000 00000200 "devlog"
+# mmcblk0p27: 00040000 00000200 "pdata"
+# mmcblk0p30: 00010000 00000200 "extra"
+# mmcblk0p16: 02d00000 00000200 "radio"
+# mmcblk0p17: 00a00000 00000200 "adsp"
+# mmcblk0p15: 00100000 00000200 "dsps"
+# mmcblk0p18: 00500000 00000200 "wcnss"
+# mmcblk0p19: 007ffa00 00000200 "radio_config"
+# mmcblk0p23: 00400000 00000200 "modem_st1"
+# mmcblk0p24: 00400000 00000200 "modem_st2"
+# mmcblk0p31: 0616a000 00000200 "reserve"
+
+# Filesystem
 BOARD_BOOTIMAGE_PARTITION_SIZE := 16777216
 BOARD_RECOVERYIMAGE_PARTITION_SIZE := 16776704
 BOARD_SYSTEMIMAGE_PARTITION_SIZE := 1610611712
 BOARD_USERDATAIMAGE_PARTITION_SIZE := 13220446208
 BOARD_FLASH_BLOCK_SIZE := 131072
+BOARD_VOLD_MAX_PARTITIONS := 36
 
-# cat /proc/emmc
-#dev:        size     erasesize name
-mmcblk0p22: 000ffa00 00000200 "misc"
-mmcblk0p21: 00fffe00 00000200 "recovery"
-mmcblk0p20: 01000000 00000200 "boot"
-mmcblk0p32: 5ffffc00 00000200 "system"
-mmcblk0p29: 00140200 00000200 "local"
-mmcblk0p33: 13fffe00 00000200 "cache"
-mmcblk0p34: 314000000 00000200 "userdata"
-mmcblk0p25: 01400000 00000200 "devlog"
-mmcblk0p27: 00040000 00000200 "pdata"
-mmcblk0p30: 00010000 00000200 "extra"
-mmcblk0p16: 02d00000 00000200 "radio"
-mmcblk0p17: 00a00000 00000200 "adsp"
-mmcblk0p15: 00100000 00000200 "dsps"
-mmcblk0p18: 00500000 00000200 "wcnss"
-mmcblk0p19: 007ffa00 00000200 "radio_config"
-mmcblk0p23: 00400000 00000200 "modem_st1"
-mmcblk0p24: 00400000 00000200 "modem_st2"
-mmcblk0p31: 0616a000 00000200 "reserve"
+# Vold
+BOARD_VOLD_EMMC_SHARES_DEV_MAJOR := true
+TARGET_USE_CUSTOM_LUN_FILE_PATH := /sys/devices/platform/msm_hsusb/gadget/lun%d/file
+
+# Charge Mode
+BOARD_CHARGING_MODE_BOOTING_LPM := /sys/htc_lpm/lpm_mode
 
 # Recovery
+TARGET_RECOVERY_FSTAB := device/htc/mystul/rootdir/etc/fstab.operaul
 BOARD_HAS_NO_SELECT_BUTTON := true
 BOARD_USE_CUSTOM_RECOVERY_FONT := \"roboto_15x24.h\"
 BOARD_RECOVERY_SWIPE := true
 TARGET_USERIMAGES_USE_EXT4 := true
-RECOVERY_GRAPHICS_USE_LINELENGTH := true
 TARGET_RECOVERY_PIXEL_FORMAT := "RGBX_8888"
+
+# inherit from the proprietary version
+-include vendor/htc/mystul/BoardConfigVendor.mk

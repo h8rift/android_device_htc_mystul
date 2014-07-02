@@ -19,34 +19,36 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/full_base_telephony.mk)
 # common 8960 configs
 $(call inherit-product, device/htc/msm8960-common/msm8960.mk)
 
-DEVICE_PACKAGE_OVERLAYS += device/htc/mystul/overlay
+# overlays
+DEVICE_PACKAGE_OVERLAYS += $(LOCAL_PATH)/overlay
 
-# Boot ramdisk setup
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/ramdisk/init.qcom.rc:/root/init.qcom.rc \
-    $(LOCAL_PATH)/ramdisk/fstab.operaul:/root/fstab.operaul \
-    $(LOCAL_PATH)/ramdisk/init.qcom.sh:/root/init.qcom.sh \
-    $(LOCAL_PATH)/ramdisk/init.operaul.rc:/root/init.operaul.rc \
-    $(LOCAL_PATH)/ramdisk/init.operaul.usb.rc:/root/init.operaul.usb.rc \
-    $(LOCAL_PATH)/ramdisk/ueventd.operaul.rc:/root/ueventd.operaul.rc \
-    $(LOCAL_PATH)/ramdisk/init.operaul.recovery.rc:/root/init.operaul.recovery.rc \
-    $(LOCAL_PATH)/ramdisk/remount.operaul:/root/remount.operaul
+# Boot Animation
+TARGET_SCREEN_HEIGHT := 1280
+TARGET_SCREEN_WIDTH := 720
+
+# Ramdisk
+PRODUCT_PACKAGES += \
+    fstab.operaul \
+    init.operaul.rc \
+    init.operaul.usb.rc \
+    ueventd.operaul.rc
+
+# Recovery
+#PRODUCT_PACKAGES += \
+#    init.recovery.operaul.rc \
+#    lpm.rc \
+#    choice_fn \
+#    power_test \
+#    offmode_charging \
+#    detect_key 
 
 # Qualcomm scripts
 PRODUCT_COPY_FILES += \
     $(LOCAL_PATH)/configs/init.qcom.bt.sh:/system/etc/init.qcom.bt.sh \
-    $(LOCAL_PATH)/configs/init.qcom.coex.sh:/system/etc/init.qcom.coex.sh \
     $(LOCAL_PATH)/configs/init.qcom.fm.sh:/system/etc/init.qcom.fm.sh \
-    $(LOCAL_PATH)/configs/init.qcom.mdm_links.sh:/system/etc/init.qcom.mdm_links.sh \
-    $(LOCAL_PATH)/configs/init.qcom.modem_links.sh:/system/etc/init.qcom.modem_links.sh \
-    $(LOCAL_PATH)/configs/init.qcom.post_boot.sh:/system/etc/init.qcom.post_boot.sh \
-    $(LOCAL_PATH)/configs/init.qcom.q6_links.sh:/system/etc/init.qcom.q6_links.sh \
-    $(LOCAL_PATH)/configs/init.qcom.radio_links.sh:/system/etc/init.qcom.radio_links.sh
 
-# HTC BT audio config
-PRODUCT_COPY_FILES += \
- device/htc/mystul/configs/AudioBTID.csv:system/etc/AudioBTID.csv \
- device/htc/mystul/configs/AudioBTIDnew.csv:system/etc/AudioBTIDnew.csv
+# QC thermald config
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/configs/thermald.conf:system/etc/thermald.conf
 
 PRODUCT_PACKAGES += \
     libnetcmdiface
@@ -57,71 +59,67 @@ PRODUCT_PACKAGES += \
 
 # GPS
 PRODUCT_PACKAGES += \
-    libloc_adapter \
-    libloc_eng \
-    libloc_api_v02 \
-    libgps.utils \
     gps.msm8960
 
-PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf
+PRODUCT_COPY_FILES += $(LOCAL_PATH)/gps/gps.conf:system/etc/gps.conf
 
-# Sound configs
+# NFCEE access control
+ifeq ($(TARGET_BUILD_VARIANT),user)
+    NFCEE_ACCESS_PATH := $(LOCAL_PATH)/configs/nfcee_access.xml
+else
+    NFCEE_ACCESS_PATH := $(LOCAL_PATH)/configs/nfcee_access_debug.xml
+endif
 PRODUCT_COPY_FILES += \
-    device/htc/mystul/dsp/tfa/tfa9887.config:system/etc/tfa/tfa9887.config \
-    device/htc/mystul/dsp/tfa/tfa9887.patch:system/etc/tfa/tfa9887.patch \
-    device/htc/mystul/dsp/tfa/tfa9887.speaker:system/etc/tfa/tfa9887.speaker \
-    device/htc/mystul/dsp/tfa/playback.config:system/etc/tfa/playback.config \
-    device/htc/mystul/dsp/tfa/playback.eq:system/etc/tfa/playback.eq \
-    device/htc/mystul/dsp/tfa/playback.preset:system/etc/tfa/playback.preset \
-    device/htc/mystul/dsp/tfa/recorder.config:system/etc/tfa/recorder.config \
-    device/htc/mystul/dsp/tfa/recorder.eq:system/etc/tfa/recorder.eq \
-    device/htc/mystul/dsp/tfa/recorder.preset:system/etc/tfa/recorder.preset \
-    device/htc/mystul/dsp/tfa/ring.config:system/etc/tfa/ring.config \
-    device/htc/mystul/dsp/tfa/ring.eq:system/etc/tfa/ring.eq \
-    device/htc/mystul/dsp/tfa/ring.preset:system/etc/tfa/ring.preset \
-    device/htc/mystul/dsp/tfa/video.config:system/etc/tfa/video.config \
-    device/htc/mystul/dsp/tfa/video.eq:system/etc/tfa/video.eq \
-    device/htc/mystul/dsp/tfa/video.preset:system/etc/tfa/video.preset \
-    device/htc/mystul/dsp/tfa/voice.config:system/etc/tfa/voice.config \
-    device/htc/mystul/dsp/tfa/voice.eq:system/etc/tfa/voice.eq \
-    device/htc/mystul/dsp/tfa/voice.preset:system/etc/tfa/voice.preset
+    $(NFCEE_ACCESS_PATH):system/etc/nfcee_access.xml
 
-PRODUCT_COPY_FILES += \
-    device/htc/mystul/dsp/sound_mfg.txt:system/etc/sound_mfg.txt \
-    device/htc/mystul/dsp/sound_mfg_DMIC.txt:system/etc/sound_mfg_DMIC.txt
+# NFC
+PRODUCT_PACKAGES += \
+    libnfc \
+    libnfc_ndef \
+    libnfc_jni \
+    Nfc \
+    Tag \
+    com.android.nfc_extras
 
 # Wifi configs
 PRODUCT_PACKAGES += \
-    device/htc/mystul/configs/wpa_supplicant.conf:system/etc/wpa_supplicant.conf \
-    device/htc/mystul/configs/p2p_supplicant.conf:system/etc/p2p_supplicant.conf
-
-PRODUCT_COPY_FILES += \
-    device/htc/mystul/dsp/snd_soc_msm/snd_soc_msm_Sitar:/system/etc/snd_soc_msm/snd_soc_msm_Sitar
-
-# Keylayouts and Keychars
-PRODUCT_COPY_FILES += \
-    device/htc/mystul/keylayout/synaptics-rmi-touchscreen.kl:system/usr/keylayout/synaptics-rmi-touchscreen.kl \
-    device/htc/mystul/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
-    device/htc/mystul/keylayout/operaul-keypad.kl:system/usr/keylayout/operaul-keypad.kl \
-    device/htc/mystul/keylayout/projector-Keypad.kl:system/usr/keylayout/projector-Keypad.kl
-
-# Input device config
-PRODUCT_COPY_FILES += \
-    device/htc/mystul/idc/synaptics-rmi-touchscreen.idc:system/usr/idc/synaptics-rmi-touchscreen.idc \
-    device/htc/mystul/idc/projector_input.idc:system/usr/idc/projector_input.idc
+    $(LOCAL_PATH)/configs/calibration.gpio4:/system/etc/calibration.gpio4 \
+    $(LOCAL_PATH)/configs/p2p_supplicant_overlay.conf:system/etc/p2p_supplicant_overlay.conf \
+    $(LOCAL_PATH)/configs/wpa_supplicant_overlay.conf:system/etc/wpa_supplicant_overlay.conf
 
 # Audio config
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf
+    $(LOCAL_PATH)/configs/audio_policy.conf:system/etc/audio_policy.conf \
+    $(LOCAL_PATH)/dsp/snd_soc_msm/snd_soc_msm_Sitar:/system/etc/snd_soc_msm/snd_soc_msm_Sitar
 
-# Thermal config
+# Media config
 PRODUCT_COPY_FILES += \
-    $(LOCAL_PATH)/configs/thermald.conf:system/etc/thermald.conf
+    $(LOCAL_PATH)/configs/media_profiles.xml:system/etc/media_profiles.xml
+
+# Keylayouts and Keychars
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/keylayout/synaptics-rmi-touchscreen.kl:system/usr/keylayout/synaptics-rmi-touchscreen.kl \
+    $(LOCAL_PATH)/keylayout/AVRCP.kl:system/usr/keylayout/AVRCP.kl \
+    $(LOCAL_PATH)/keylayout/operaul-keypad.kl:system/usr/keylayout/operaul-keypad.kl \
+    $(LOCAL_PATH)/keylayout/projector-Keypad.kl:system/usr/keylayout/projector-Keypad.kl
+
+# Input device config
+PRODUCT_COPY_FILES += \
+    $(LOCAL_PATH)/idc/synaptics-rmi-touchscreen.idc:system/usr/idc/synaptics-rmi-touchscreen.idc \
+    $(LOCAL_PATH)/idc/projector_input.idc:system/usr/idc/projector_input.idc
 
 # Torch
 PRODUCT_PACKAGES += \
     Torch
+
+# Permissions
+PRODUCT_COPY_FILES += \
+    frameworks/native/data/etc/android.hardware.audio.low_latency.xml:system/etc/permissions/android.hardware.audio.low_latency.xml \
+    frameworks/native/data/etc/android.hardware.bluetooth_le.xml:system/etc/permissions/android.hardware.bluetooth_le.xml \
+    frameworks/native/data/etc/android.hardware.wifi.direct.xml:system/etc/permissions/android.hardware.wifi.direct.xml \
+    frameworks/native/data/etc/android.hardware.nfc.xml:system/etc/permissions/android.hardware.nfc.xml \
+    frameworks/native/data/etc/android.hardware.nfc.hce.xml:system/etc/permissions/android.hardware.nfc.hce.xml \
+    frameworks/base/nfc-extras/com.android.nfc_extras.xml:system/etc/permissions/com.android.nfc_extras.xml
 
 PRODUCT_DEFAULT_PROPERTY_OVERRIDES += \
     persist.sys.usb.config=mtp,adb
@@ -144,8 +142,8 @@ PRODUCT_CHARACTERISTICS := nosdcard
 PRODUCT_AAPT_CONFIG := normal hdpi xhdpi
 PRODUCT_AAPT_PREF_CONFIG := xhdpi
 
-# call the proprietary setup
-$(call inherit-product-if-exists, vendor/htc/mystul/mystul-vendor.mk)
-
 # call dalvik heap config
 $(call inherit-product, frameworks/native/build/phone-xhdpi-1024-dalvik-heap.mk)
+
+# call the proprietary setup
+$(call inherit-product-if-exists, vendor/htc/mystul/mystul-vendor.mk)
