@@ -29,7 +29,6 @@ lib/libchromatix_s5k3h2yx_zsl.so
 lib/libcameraface.so
 lib/libcamerapp.so
 lib/libcam_oem_plugin.so
-lib/libDxOAF.so
 lib/libgemini.so
 lib/libmmcamera_frameproc.so
 lib/libmmcamera_rawchipproc.so
